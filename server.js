@@ -22,9 +22,17 @@ app.use(
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
-app.use(bodyParser.json({ limit: '10mb' })); // Increase limit as needed
-app.use(cors()); // Declare cors only once
+app.use(bodyParser.json({ limit: '10mb' })); // Increase limit as needed // Declare cors only once
 
+
+const corsOptions = {
+  origin: 'https://bookoub.onrender.com',  // Allow only your frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Methods you want to allow
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Headers you want to allow
+  credentials: true,  // If you're using cookies or sessions
+};
+
+app.use(cors(corsOptions));
 // Create a transporter object with Gmail service
 let transporter = nodemailer.createTransport({
   service: 'gmail',
