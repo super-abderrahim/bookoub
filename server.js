@@ -25,6 +25,17 @@ app.use(xss());
 app.use(bodyParser.json({ limit: '10mb' })); // Increase limit as needed // Declare cors only once
 
 
+const path = require('path');
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Catch-all handler to serve the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
 const corsOptions = {
   origin: 'https://bookoub.onrender.com',  // Allow only your frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Methods you want to allow
