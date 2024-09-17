@@ -24,12 +24,15 @@ app.use(helmet());
 app.use(xss());
 app.use(bodyParser.json({ limit: '10mb' })); // Increase limit as needed // Declare cors only once
 
-
-const allowedOrigins = ['https://bookoub.onrender.com', 'https://dashboard-krez.onrender.com'];
+const allowedOrigins = ['https://bookoub.onrender.com', 'https://dashboard-krez.onrender.com', 'https://www.bookoub.com'];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    const allowed = allowedOrigins.some((allowedOrigin) => {
+      return origin && origin.includes(allowedOrigin);
+    });
+
+    if (allowed || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
