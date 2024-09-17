@@ -25,22 +25,22 @@ app.use(xss());
 app.use(bodyParser.json({ limit: '10mb' })); // Increase limit as needed // Declare cors only once
 
 
-// const allowedOrigins = ['https://bookoub.onrender.com', 'https://dashboard-krez.onrender.com'];
-
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   }
-// }));
-
+const allowedOrigins = ['https://bookoub.onrender.com', 'https://dashboard-krez.onrender.com'];
 
 app.use(cors({
-  origin: '*',
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 }));
+
+
+// app.use(cors({
+//   origin: '*',
+// }));
 
 // Create a transporter object with Gmail service
 let transporter = nodemailer.createTransport({
